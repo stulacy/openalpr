@@ -5,155 +5,120 @@
 
 using namespace Rcpp;
 
-// initialize
-Alpr* initialize(std::string country, std::string configFile, std::string runtimeDir);
-RcppExport SEXP _openalpR_initialize(SEXP countrySEXP, SEXP configFileSEXP, SEXP runtimeDirSEXP) {
+// initialize_cpp
+void initialize_cpp(std::string country, std::string configFile, std::string runtimeDir);
+RcppExport SEXP _openalpR_initialize_cpp(SEXP countrySEXP, SEXP configFileSEXP, SEXP runtimeDirSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type country(countrySEXP);
     Rcpp::traits::input_parameter< std::string >::type configFile(configFileSEXP);
     Rcpp::traits::input_parameter< std::string >::type runtimeDir(runtimeDirSEXP);
-    rcpp_result_gen = Rcpp::wrap(initialize(country, configFile, runtimeDir));
-    return rcpp_result_gen;
-END_RCPP
-}
-// dispose
-void dispose(Alpr* nativeAlpr);
-RcppExport SEXP _openalpR_dispose(SEXP nativeAlprSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
-    dispose(nativeAlpr);
+    initialize_cpp(country, configFile, runtimeDir);
     return R_NilValue;
 END_RCPP
 }
-// isLoaded
-bool isLoaded(Alpr* nativeAlpr);
-RcppExport SEXP _openalpR_isLoaded(SEXP nativeAlprSEXP) {
+// close
+void close();
+RcppExport SEXP _openalpR_close() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    close();
+    return R_NilValue;
+END_RCPP
+}
+// is_loaded
+bool is_loaded();
+RcppExport SEXP _openalpR_is_loaded() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
-    rcpp_result_gen = Rcpp::wrap(isLoaded(nativeAlpr));
+    rcpp_result_gen = Rcpp::wrap(is_loaded());
     return rcpp_result_gen;
 END_RCPP
 }
-// recognizeFile
-std::string recognizeFile(Alpr* nativeAlpr, std::string imageFile);
-RcppExport SEXP _openalpR_recognizeFile(SEXP nativeAlprSEXP, SEXP imageFileSEXP) {
+// recognize_file_cpp
+std::string recognize_file_cpp(std::string imageFile);
+RcppExport SEXP _openalpR_recognize_file_cpp(SEXP imageFileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
     Rcpp::traits::input_parameter< std::string >::type imageFile(imageFileSEXP);
-    rcpp_result_gen = Rcpp::wrap(recognizeFile(nativeAlpr, imageFile));
+    rcpp_result_gen = Rcpp::wrap(recognize_file_cpp(imageFile));
     return rcpp_result_gen;
 END_RCPP
 }
-// freeJsonMem
-void freeJsonMem(char* ptr);
-RcppExport SEXP _openalpR_freeJsonMem(SEXP ptrSEXP) {
+// set_country
+void set_country(std::string country);
+RcppExport SEXP _openalpR_set_country(SEXP countrySEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< char* >::type ptr(ptrSEXP);
-    freeJsonMem(ptr);
-    return R_NilValue;
-END_RCPP
-}
-// recognizeArray
-std::string recognizeArray(Alpr* nativeAlpr, unsigned char* buf, int len);
-RcppExport SEXP _openalpR_recognizeArray(SEXP nativeAlprSEXP, SEXP bufSEXP, SEXP lenSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
-    Rcpp::traits::input_parameter< unsigned char* >::type buf(bufSEXP);
-    Rcpp::traits::input_parameter< int >::type len(lenSEXP);
-    rcpp_result_gen = Rcpp::wrap(recognizeArray(nativeAlpr, buf, len));
-    return rcpp_result_gen;
-END_RCPP
-}
-// setCountry
-void setCountry(Alpr* nativeAlpr, std::string country);
-RcppExport SEXP _openalpR_setCountry(SEXP nativeAlprSEXP, SEXP countrySEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
     Rcpp::traits::input_parameter< std::string >::type country(countrySEXP);
-    setCountry(nativeAlpr, country);
+    set_country(country);
     return R_NilValue;
 END_RCPP
 }
-// setPrewarp
-void setPrewarp(Alpr* nativeAlpr, std::string prewarp);
-RcppExport SEXP _openalpR_setPrewarp(SEXP nativeAlprSEXP, SEXP prewarpSEXP) {
+// set_prewarp
+void set_prewarp(std::string prewarp);
+RcppExport SEXP _openalpR_set_prewarp(SEXP prewarpSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
     Rcpp::traits::input_parameter< std::string >::type prewarp(prewarpSEXP);
-    setPrewarp(nativeAlpr, prewarp);
+    set_prewarp(prewarp);
     return R_NilValue;
 END_RCPP
 }
-// setDefaultRegion
-void setDefaultRegion(Alpr* nativeAlpr, std::string default_region);
-RcppExport SEXP _openalpR_setDefaultRegion(SEXP nativeAlprSEXP, SEXP default_regionSEXP) {
+// set_default_region
+void set_default_region(std::string default_region);
+RcppExport SEXP _openalpR_set_default_region(SEXP default_regionSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
     Rcpp::traits::input_parameter< std::string >::type default_region(default_regionSEXP);
-    setDefaultRegion(nativeAlpr, default_region);
+    set_default_region(default_region);
     return R_NilValue;
 END_RCPP
 }
-// setDetectRegion
-void setDetectRegion(Alpr* nativeAlpr, bool detect_region);
-RcppExport SEXP _openalpR_setDetectRegion(SEXP nativeAlprSEXP, SEXP detect_regionSEXP) {
+// setDetectRegion_cpp
+void setDetectRegion_cpp(bool detect_region);
+RcppExport SEXP _openalpR_setDetectRegion_cpp(SEXP detect_regionSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
     Rcpp::traits::input_parameter< bool >::type detect_region(detect_regionSEXP);
-    setDetectRegion(nativeAlpr, detect_region);
+    setDetectRegion_cpp(detect_region);
     return R_NilValue;
 END_RCPP
 }
-// setTopN
-void setTopN(Alpr* nativeAlpr, int top_n);
-RcppExport SEXP _openalpR_setTopN(SEXP nativeAlprSEXP, SEXP top_nSEXP) {
+// set_top_n
+void set_top_n(int top_n);
+RcppExport SEXP _openalpR_set_top_n(SEXP top_nSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
     Rcpp::traits::input_parameter< int >::type top_n(top_nSEXP);
-    setTopN(nativeAlpr, top_n);
+    set_top_n(top_n);
     return R_NilValue;
 END_RCPP
 }
-// getVersion
-std::string getVersion(Alpr* nativeAlpr);
-RcppExport SEXP _openalpR_getVersion(SEXP nativeAlprSEXP) {
+// get_version
+std::string get_version();
+RcppExport SEXP _openalpR_get_version() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Alpr* >::type nativeAlpr(nativeAlprSEXP);
-    rcpp_result_gen = Rcpp::wrap(getVersion(nativeAlpr));
+    rcpp_result_gen = Rcpp::wrap(get_version());
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_openalpR_initialize", (DL_FUNC) &_openalpR_initialize, 3},
-    {"_openalpR_dispose", (DL_FUNC) &_openalpR_dispose, 1},
-    {"_openalpR_isLoaded", (DL_FUNC) &_openalpR_isLoaded, 1},
-    {"_openalpR_recognizeFile", (DL_FUNC) &_openalpR_recognizeFile, 2},
-    {"_openalpR_freeJsonMem", (DL_FUNC) &_openalpR_freeJsonMem, 1},
-    {"_openalpR_recognizeArray", (DL_FUNC) &_openalpR_recognizeArray, 3},
-    {"_openalpR_setCountry", (DL_FUNC) &_openalpR_setCountry, 2},
-    {"_openalpR_setPrewarp", (DL_FUNC) &_openalpR_setPrewarp, 2},
-    {"_openalpR_setDefaultRegion", (DL_FUNC) &_openalpR_setDefaultRegion, 2},
-    {"_openalpR_setDetectRegion", (DL_FUNC) &_openalpR_setDetectRegion, 2},
-    {"_openalpR_setTopN", (DL_FUNC) &_openalpR_setTopN, 2},
-    {"_openalpR_getVersion", (DL_FUNC) &_openalpR_getVersion, 1},
+    {"_openalpR_initialize_cpp", (DL_FUNC) &_openalpR_initialize_cpp, 3},
+    {"_openalpR_close", (DL_FUNC) &_openalpR_close, 0},
+    {"_openalpR_is_loaded", (DL_FUNC) &_openalpR_is_loaded, 0},
+    {"_openalpR_recognize_file_cpp", (DL_FUNC) &_openalpR_recognize_file_cpp, 1},
+    {"_openalpR_set_country", (DL_FUNC) &_openalpR_set_country, 1},
+    {"_openalpR_set_prewarp", (DL_FUNC) &_openalpR_set_prewarp, 1},
+    {"_openalpR_set_default_region", (DL_FUNC) &_openalpR_set_default_region, 1},
+    {"_openalpR_setDetectRegion_cpp", (DL_FUNC) &_openalpR_setDetectRegion_cpp, 1},
+    {"_openalpR_set_top_n", (DL_FUNC) &_openalpR_set_top_n, 1},
+    {"_openalpR_get_version", (DL_FUNC) &_openalpR_get_version, 0},
     {NULL, NULL, 0}
 };
 

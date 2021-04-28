@@ -1,113 +1,126 @@
 #include <Rcpp.h>
 #include <stdlib.h>
-
 #include <alpr.h>
-
-//extern "C" {
-
-//#if defined(WIN32)
-//    //  Microsoft
-//    #define OPENALPR_EXPORT __declspec(dllexport)
-//#else
-//    //  do nothing
-//    #define OPENALPR_EXPORT
-//#endif
 
 using namespace alpr;
 
+bool initialized = false;
+static Alpr* nativeAlpr;
 
 // [[Rcpp::export]]
-Alpr* initialize(std::string country, std::string configFile, std::string runtimeDir)
+void initialize_cpp(std::string country, std::string configFile, std::string runtimeDir)
 {
-    //printf("Initialize");
-
-    //std::cout << country << std::endl << configFile << std::endl << runtimeDir << std::endl;
-    Alpr* nativeAlpr = new alpr::Alpr(country, configFile, runtimeDir);
-
-    return nativeAlpr;
+    nativeAlpr = new alpr::Alpr(country, configFile, runtimeDir);
+    initialized = true;
+    return;
 }
 
-
-
-
+//' Closes the connection to the ANPR handler.
+//'
+//' MUST BE RUN AFTER FINISHING NUMBER PLATE RECOGNITION.
+//'
+//' @return None
+//' @export
 // [[Rcpp::export]]
-void dispose(Alpr* nativeAlpr)
+void close()
 {
+  initialized = false;
   delete nativeAlpr;
 }
 
-
+//' Checks whether the number plate recogniser has been successfully loaded.
+//'
+//' @return A boolean indicating whether ANPR requests can be made or not.
+//' @export
 // [[Rcpp::export]]
-bool isLoaded(Alpr* nativeAlpr)
+bool is_loaded()
 {
-  //printf("IS LOADED");
+  if (!initialized)
+    return false;
+
   return nativeAlpr->isLoaded();
 }
 
 // [[Rcpp::export]]
-std::string recognizeFile(Alpr* nativeAlpr, std::string imageFile)
+std::string recognize_file_cpp(std::string imageFile)
 {
-  //printf("Recognize file");
-
   AlprResults results = nativeAlpr->recognize(imageFile);
   std::string json = Alpr::toJson(results);
   return json;
 }
 
+//// Detect from raw string/bytes array
+//// [[Rcpp::export]]
+//std::string recognizeArray(unsigned char* buf, int len)
+//{
+//  //std::cout << "Using instance: " << nativeAlpr << std::endl;
+//
+//  std::vector<char> cvec(buf, buf+len);
+//
+//  AlprResults results = nativeAlpr->recognize(cvec);
+//  std::string json = Alpr::toJson(results);
+//
+//  return json;
+//}
+
+//' Changes the country.
+//'
+//' @param country 'eu' or 'us'.
+//' @return None.
 // [[Rcpp::export]]
-void freeJsonMem(char* ptr)
-{
-    //printf("freeing address: %p\n", ptr);
-    free( ptr );
-}
-
-
-// Detect from raw string/bytes array
-// [[Rcpp::export]]
-std::string recognizeArray(Alpr* nativeAlpr, unsigned char* buf, int len)
-{
-  //std::cout << "Using instance: " << nativeAlpr << std::endl;
-
-  std::vector<char> cvec(buf, buf+len);
-
-  AlprResults results = nativeAlpr->recognize(cvec);
-  std::string json = Alpr::toJson(results);
-
-  return json;
-}
-
-// [[Rcpp::export]]
-void setCountry(Alpr* nativeAlpr, std::string country)
+void set_country(std::string country)
 {
   nativeAlpr->setCountry(country);
 }
 
+//' Not entirely sure what this does...
+//'
+//' @param A string representing something...
+//' @return None.
 // [[Rcpp::export]]
-void setPrewarp(Alpr* nativeAlpr, std::string prewarp)
+void set_prewarp(std::string prewarp)
 {
   nativeAlpr->setPrewarp(prewarp);
 }
 
+//' Not entirely sure what this does...
+//'
+//' @param A string representing something...
+//' @return None.
 // [[Rcpp::export]]
-void setDefaultRegion(Alpr* nativeAlpr, std::string default_region)
+void set_default_region(std::string default_region)
 {
   nativeAlpr->setDefaultRegion(default_region);
 }
 
+//' Sets whether the region should be detected automatically or not.
+//'
+//' I'm unsure if region is the same as country. 
+//'
+//' @param detect_region Whether to automatically detect the region or not.
+//' @return None.
 // [[Rcpp::export]]
-void setDetectRegion(Alpr* nativeAlpr, bool detect_region)
+void setDetectRegion_cpp(bool detect_region)
 {
   nativeAlpr->setDetectRegion(detect_region);
 }
 
+//' Sets how many candidates to return.
+//'
+//' @param top_n How many values to return. Default is 10.
+//' @return None.
 // [[Rcpp::export]]
-void setTopN(Alpr* nativeAlpr, int top_n)
+void set_top_n(int top_n)
 {
   nativeAlpr->setTopN(top_n);
 }
 
+//' Returns the openalpr library version number.
+//'
+//' @return The version number as a string
+//' @export
 // [[Rcpp::export]]
-std::string getVersion(Alpr* nativeAlpr)
+std::string get_version()
 {
   std::string version = nativeAlpr->getVersion();
   return version;

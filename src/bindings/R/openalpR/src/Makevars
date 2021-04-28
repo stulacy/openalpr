@@ -1,2 +1,2 @@
-PKG_CPPFLAGS = -I../../../../openalpr
+PKG_CPPFLAGS = -I../../../openalpr
 PKG_LIBS = -lopenalpr
